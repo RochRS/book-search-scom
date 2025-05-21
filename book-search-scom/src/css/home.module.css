@@ -1,0 +1,14 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  justify-content: center;
+  justify-items: center;
+  padding: 100px;
+}
+
+.searchbarDiv {
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+}
