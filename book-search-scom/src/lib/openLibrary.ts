@@ -23,7 +23,7 @@ export async function fetchBooksFromOpenLibrary(query: string, page: number) {
   };
 }
 
-export async function getBookDetails(workId: string) {
-  const response = await api.get(`/${workId}.json`);
+export async function getBookDetails(bookId: string) {
+  const response = await api.get(`/${bookId}.json`);
   return response.data;
 }
