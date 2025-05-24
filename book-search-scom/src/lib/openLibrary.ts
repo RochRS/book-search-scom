@@ -14,7 +14,7 @@ export async function fetchBooksFromOpenLibrary(query: string, page: number) {
     title: doc.title,
     author_name: doc.author_name || [],
     cover_i:
-      doc.cover_i || "https://placehold.co/000000/FFFFFF/100x100?text=No+image", // include cover ID if available
+      doc.cover_i || "https://placehold.co/000000/FFFFFF/100x100?text=No+image",
   }));
 
   return {
@@ -24,6 +24,6 @@ export async function fetchBooksFromOpenLibrary(query: string, page: number) {
 }
 
 export async function getBookDetails(bookId: string) {
-  const response = await api.get(`/${bookId}.json`);
+  const response = await api.get(`works/${bookId}.json`);
   return response.data;
 }

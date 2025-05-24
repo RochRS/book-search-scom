@@ -1,7 +1,8 @@
 "use client";
 
+import styles from "@/css/details.module.css";
 import { getBookDetails } from "@/lib/openLibrary";
-import { Button, Card, Spin, Typography } from "antd";
+import { Button, Card, Image, Spin, Typography } from "antd";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -16,7 +17,7 @@ interface BookDetail {
 }
 
 export default function BookDetailPage() {
-  const { workId } = useParams<{ workId: string }>();
+  const { bookId } = useParams<{ bookId: string }>();
   const router = useRouter();
   const [book, setBook] = useState<BookDetail | null>(null);
   const [loading, setLoading] = useState(true);
@@ -24,7 +25,7 @@ export default function BookDetailPage() {
   useEffect(() => {
     const fetchDetails = async () => {
       try {
-        const data = await getBookDetails(workId);
+        const data = await getBookDetails(bookId);
         setBook(data);
       } catch (error) {
         console.error("Failed to load book details", error);
@@ -34,7 +35,7 @@ export default function BookDetailPage() {
     };
 
     fetchDetails();
-  }, [workId]);
+  }, [bookId]);
 
   const getDescription = () => {
     if (!book?.description) return "No description available.";
@@ -48,39 +49,41 @@ export default function BookDetailPage() {
     : "https://via.placeholder.com/200x300?text=No+Image";
 
   return (
-    <div style={{ maxWidth: 600, margin: "0 auto", padding: 20 }}>
-      <Button
-        type="primary"
-        onClick={() => router.back()}
-        style={{ marginBottom: 20 }}
-      >
-        ← Back to results
-      </Button>
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <Button color="red" type="primary" onClick={() => router.back()}>
+          ← Back to results
+        </Button>
+      </div>
 
       {loading ? (
         <Spin size="large" />
       ) : (
-        <Card
-          hoverable
-          cover={
-            <img
+        <Card className={styles.card}>
+          <div className={styles.content}>
+            <Image
+              className={styles.cover_image}
               alt={book?.title}
               src={coverUrl}
-              style={{ objectFit: "cover", maxHeight: 400 }}
+              preview={false}
             />
-          }
-        >
-          <Title level={3}>{book?.title}</Title>
-          <Paragraph strong>Author Key(s):</Paragraph>
-          <Paragraph>
-            {book?.authors?.map((a) => a.author.key).join(", ") || "Unknown"}
-          </Paragraph>
+            <div className={styles.text}>
+              <Title level={3}>{book?.title}</Title>
+              <Paragraph strong>Author Key(s):</Paragraph>
+              <Paragraph>
+                {book?.authors?.map((a) => a.author.key).join(", ") ||
+                  "Unknown"}
+              </Paragraph>
 
-          <Paragraph strong>Published:</Paragraph>
-          <Paragraph>{book?.created?.value?.split("T")[0] || "N/A"}</Paragraph>
+              <Paragraph strong>Published:</Paragraph>
+              <Paragraph>
+                {book?.created?.value?.split("T")[0] || "N/A"}
+              </Paragraph>
 
-          <Paragraph strong>Description:</Paragraph>
-          <Paragraph>{getDescription()}</Paragraph>
+              <Paragraph strong>Description:</Paragraph>
+              <Paragraph>{getDescription()}</Paragraph>
+            </div>
+          </div>
         </Card>
       )}
     </div>
