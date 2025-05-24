@@ -11,6 +11,11 @@ export default function Home() {
   return (
     <Provider store={store}>
       <div className={styles.container}>
+        <h1 className={styles.heading}>
+          What <span className={styles.highlight}>Book</span> Are You Looking
+          For?
+        </h1>
+
         <div className={styles.searchbarDiv}>
           <Searchbar />
         </div>

@@ -18,9 +18,8 @@ const Searchbar: React.FC = () => {
       const resultAction = await dispatch(
         fetchBooks({ query: value, page: 1 })
       );
-      // Check if the action was fulfilled
       if (fetchBooks.fulfilled.match(resultAction)) {
-        console.log("Fetched books:", resultAction.payload);
+        // console.log("Fetched books:", resultAction.payload);
       } else {
         console.error("Failed to fetch books:", resultAction.error.message);
       }
