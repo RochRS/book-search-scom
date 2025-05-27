@@ -65,6 +65,7 @@ const BookTable = () => {
         current: currentPage,
         total: total,
         pageSize: 10,
+        style: { gap: "10px" },
         showSizeChanger: false,
         onChange: (page) => {
           dispatch(fetchBooks({ query, page }));
