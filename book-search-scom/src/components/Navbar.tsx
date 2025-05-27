@@ -13,11 +13,16 @@ const Navbar = () => {
       <div className={styles.navContent}>
         <Link
           href="/"
-          className={`${styles.link} ${pathname === "/" ? styles.active : ""}`}
+          className={`${styles.link} ${
+            pathname === "/" || pathname.startsWith("/book")
+              ? styles.active
+              : ""
+          }`}
         >
-          <Icon fontSize={20} icon="material-symbols-light:home-rounded" />{" "}
+          <Icon fontSize={20} icon="material-symbols-light:home-rounded" />
           <span>Home</span>
         </Link>
+
         <Link
           href="/about"
           className={`${styles.link} ${
