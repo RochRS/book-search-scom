@@ -2,6 +2,7 @@
 
 import styles from "@/css/details.module.css";
 import { getBookDetails } from "@/lib/openLibrary";
+import { Icon } from "@iconify/react/dist/iconify.js";
 import { Button, Card, Image, Spin, Typography } from "antd";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -19,8 +20,10 @@ interface BookDetail {
 export default function BookDetailPage() {
   const { bookId } = useParams<{ bookId: string }>();
   const router = useRouter();
-  const [book, setBook] = useState<BookDetail | null>(null);
   const [loading, setLoading] = useState(true);
+
+  // Fetch book details based on Book key
+  const [book, setBook] = useState<BookDetail | null>(null);
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -37,6 +40,32 @@ export default function BookDetailPage() {
     fetchDetails();
   }, [bookId]);
 
+  // Fetch author names based on the author key given in the Book Detail
+  const [authorNames, setAuthorNames] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetchAuthorNames = async () => {
+      if (!book?.authors) return;
+      const names: string[] = [];
+
+      for (const a of book.authors) {
+        const key = a.author.key;
+        try {
+          const res = await fetch(`https://openlibrary.org${key}.json`);
+          const data = await res.json();
+          names.push(data.name);
+        } catch (err) {
+          console.error("Failed to fetch author name", err);
+          names.push("Unknown");
+        }
+      }
+
+      setAuthorNames(names);
+    };
+
+    fetchAuthorNames();
+  }, [book]);
+
   const getDescription = () => {
     if (!book?.description) return "No description available.";
     return typeof book.description === "string"
@@ -51,8 +80,14 @@ export default function BookDetailPage() {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <Button color="red" type="primary" onClick={() => router.back()}>
-          ← Back to results
+        <Button
+          className={styles.back_button}
+          color="red"
+          type="primary"
+          onClick={() => router.back()}
+        >
+          <Icon icon="typcn:arrow-left" fontSize={30} />{" "}
+          <span>Back to results</span>
         </Button>
       </div>
 
@@ -69,11 +104,8 @@ export default function BookDetailPage() {
             />
             <div className={styles.text}>
               <Title level={3}>{book?.title}</Title>
-              <Paragraph strong>Author Key(s):</Paragraph>
-              <Paragraph>
-                {book?.authors?.map((a) => a.author.key).join(", ") ||
-                  "Unknown"}
-              </Paragraph>
+              <Paragraph strong>Author(s):</Paragraph>
+              <Paragraph>{authorNames.join(", ") || "Unknown"}</Paragraph>
 
               <Paragraph strong>Published:</Paragraph>
               <Paragraph>
