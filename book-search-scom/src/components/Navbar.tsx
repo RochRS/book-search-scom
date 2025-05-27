@@ -5,6 +5,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+// This component renders a navigation bar with links to the home and about pages.
 const Navbar = () => {
   const pathname = usePathname();
 

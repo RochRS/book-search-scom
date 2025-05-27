@@ -1,10 +1,13 @@
 import axios from "axios";
 
+// Creates an Axios instance with a base URL pointing to the Open Library API
 export const api = axios.create({
   baseURL: "https://openlibrary.org",
 });
 
+// Function to fetch books from Open Library based on a search query and page number
 export async function fetchBooksFromOpenLibrary(query: string, page: number) {
+  // Make a GET request to /search.json with query parameters
   const response = await api.get("/search.json", {
     params: { q: query, page },
   });
@@ -23,6 +26,7 @@ export async function fetchBooksFromOpenLibrary(query: string, page: number) {
   };
 }
 
+// Function to get book details by its ID (key)
 export async function getBookDetails(bookId: string) {
   const response = await api.get(`works/${bookId}.json`);
   return response.data;

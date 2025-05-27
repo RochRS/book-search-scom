@@ -3,6 +3,7 @@
 import styles from "@/css/about.module.css";
 import { Icon } from "@iconify/react/dist/iconify.js";
 
+// This is the About page of the book search application, providing information about the app and its developer.
 export default function AboutPage() {
   return (
     <div className={styles.about_container}>

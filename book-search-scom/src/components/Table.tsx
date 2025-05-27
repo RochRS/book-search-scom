@@ -4,14 +4,16 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { fetchBooks } from "@/store/searchSlice";
 import { Button, Image, Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import Link from "next/link";
 
 const BookTable = () => {
   const dispatch = useAppDispatch();
+
+  // Accessing Redux state for book data, loading state, current page, and search query
   const { books, total, currentPage, query, loading } = useAppSelector(
     (state) => state.search
   );
 
+  // Define the columns for the Ant Design Table component
   const columns: ColumnsType<any> = [
     {
       title: "Cover",
@@ -31,13 +33,13 @@ const BookTable = () => {
       title: "Title",
       dataIndex: "title",
       key: "title",
-      render: (text, record) => <Link href={`/book${record.key}`}>{text}</Link>,
+      render: (text) => <p>{text}</p>,
     },
     {
       title: "Author",
       dataIndex: "author_name",
       key: "author",
-      render: (authors: string[]) => authors?.join(", "),
+      render: (authors: string[]) => authors?.join(", "), // Show multiple authors separated by comma
     },
     {
       title: "Link",
@@ -45,7 +47,7 @@ const BookTable = () => {
       render: (record) => (
         <Button
           type="dashed"
-          href={`/book/${record.key.replace("/works/", "")}`}
+          href={`/book/${record.key.replace("/works/", "")}`} // Clean up the key for routing
         >
           View Book
         </Button>

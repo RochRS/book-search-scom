@@ -10,6 +10,7 @@ const Searchbar: React.FC = () => {
   const { query } = useAppSelector((state) => state.search);
   const [inputValue, setInputValue] = useState(query);
 
+  // Function to handle search input
   const onSearch = async (value: string) => {
     if (!value.trim()) return;
     dispatch(setQuery(value));

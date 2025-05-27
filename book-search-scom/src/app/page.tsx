@@ -7,6 +7,7 @@ import store from "@/store";
 import "@ant-design/v5-patch-for-react-19";
 import { Provider } from "react-redux";
 
+// This is the main entry point for the home page of the book search application.
 export default function Home() {
   return (
     <Provider store={store}>
